@@ -52,10 +52,11 @@ This will start:
 - **Flink JobManager** (port 8081)
 - **Flink TaskManager**
 - **Cassandra** (port 9042)
+- **MySQL** (port 3306) - Database for Airflow
 - **Airflow Webserver** (port 8080)
 - **Airflow Scheduler**
 
-Wait for all services to be ready (about 30-60 seconds):
+Wait for all services to be ready (about 60-90 seconds):
 
 ```bash
 docker compose ps
@@ -87,15 +88,41 @@ http://localhost:8081
 
 You should see the Flink Web UI dashboard.
 
+#### Check MySQL
+```bash
+docker exec mysql mysql -u airflow -pairflow -e "SHOW DATABASES;"
+```
+
 #### Check Airflow UI (Optional)
 Open your browser and navigate to:
 ```
 http://localhost:8080
 ```
 
-Default credentials:
-- Username: `airflow`
-- Password: `airflow`
+**Note:** Airflow uses MySQL database and will automatically initialize the database schema and create an admin user on first startup. This may take 60-90 seconds.
+
+Default credentials (auto-created):
+- Username: `admin`
+- Password: `admin`
+
+If you need to check Airflow logs:
+```bash
+docker compose logs -f airflow-webserver
+```
+
+**Important:** Before starting Airflow for the first time or after changes, run:
+```bash
+docker compose down -v
+docker compose up -d --build
+```
+
+**Troubleshooting Airflow:**
+- If Airflow UI doesn't load, wait 60-90 seconds for MySQL initialization and database migration
+- Check MySQL is ready: `docker compose logs mysql`
+- Check Airflow logs: `docker compose logs airflow-webserver`
+- Verify containers are running: `docker compose ps`
+- Verify Airflow connected to MySQL: Look for "Connected to MySQL" in logs
+- If issues persist, restart: `docker compose restart airflow-webserver airflow-scheduler`
 
 ### 3. Initialize Cassandra
 
@@ -402,6 +429,101 @@ If the producer can't connect to Kafka:
 2. Check Cassandra logs: `docker compose logs cassandra`
 3. Verify keyspace exists: `docker exec cassandra cqlsh -e "DESCRIBE KEYSPACE realtime;"`
 
+### Airflow UI Not Accessible
+
+If you cannot access http://localhost:8080:
+
+1. **Wait for initialization:** Airflow needs 60-90 seconds to connect to MySQL and migrate database on first startup
+   ```bash
+   # Check if containers are running
+   docker compose ps
+   
+   # Check MySQL is ready
+   docker compose logs mysql
+   
+   # Check logs for initialization progress
+   docker compose logs -f airflow-webserver
+   ```
+
+2. **Verify MySQL is accessible:**
+   ```bash
+   # Test MySQL connection
+   docker exec mysql mysql -u airflow -pairflow -e "SELECT 1;"
+   
+   # Check if database exists
+   docker exec mysql mysql -u airflow -pairflow -e "SHOW DATABASES;"
+   ```
+
+3. **Check if database migration completed:**
+   ```bash
+   # Look for "Running migration" or "Database migration done" in logs
+   docker compose logs airflow-webserver | grep -i "migrate"
+   
+   # Check for MySQL connection errors
+   docker compose logs airflow-webserver | grep -i "mysql\|error"
+   ```
+
+4. **Verify port is not in use:**
+   ```bash
+   # Check if port 8080 is available
+   sudo lsof -i :8080
+   # or
+   netstat -tulpn | grep 8080
+   ```
+
+5. **Restart services:**
+   ```bash
+   docker compose restart airflow-webserver airflow-scheduler mysql
+   ```
+
+6. **Rebuild and restart (recommended after changes):**
+   ```bash
+   docker compose down -v
+   docker compose up -d --build
+   ```
+
+7. **Manual database migration (if automatic fails):**
+   ```bash
+   # Stop services
+   docker compose stop airflow-webserver airflow-scheduler
+   
+   # Wait for MySQL to be ready
+   docker compose up -d mysql
+   sleep 30
+   
+   # Run database migration manually
+   docker compose run --rm airflow-webserver airflow db migrate
+   
+   # Create admin user
+   docker compose run --rm airflow-webserver airflow users create \
+     --username admin \
+     --firstname Admin \
+     --lastname User \
+     --role Admin \
+     --email admin@example.com \
+     --password admin
+   
+   # Start services
+   docker compose up -d airflow-webserver airflow-scheduler
+   ```
+
+8. **Check MySQL connection string:**
+   ```bash
+   # Verify environment variable is set correctly
+   docker exec airflow-webserver env | grep SQL_ALCHEMY_CONN
+   # Should show: AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=mysql+mysqldb://airflow:airflow@mysql:3306/airflow
+   ```
+
+**Default Credentials:**
+- Username: `admin`
+- Password: `admin`
+
+**MySQL Credentials:**
+- User: `airflow`
+- Password: `airflow`
+- Root Password: `airflow`
+- Database: `airflow`
+
 ### Data Not Appearing in Cassandra
 
 1. Verify Flink job is running: Check Flink UI at http://localhost:8081
@@ -415,8 +537,13 @@ If the producer can't connect to Kafka:
 # Stop all services
 docker compose down
 
-# Stop and remove volumes (WARNING: This deletes data)
+# Stop and remove volumes (WARNING: This deletes all data including MySQL database)
 docker compose down -v
+```
+
+**Note:** After running `docker compose down -v`, you need to rebuild and restart:
+```bash
+docker compose up -d --build
 ```
 
 ## Configuration
@@ -439,6 +566,21 @@ docker compose down -v
 - Port: 9042
 - Keyspace: `realtime`
 - Table: `users`
+
+### Airflow Configuration
+
+- Webserver: http://localhost:8080
+- Executor: LocalExecutor
+- Database: MySQL 8.0
+  - Host: `mysql` (internal), `localhost` (external)
+  - Port: 3306
+  - Database: `airflow`
+  - User: `airflow` / Password: `airflow`
+  - Root password: `airflow`
+- Default credentials: `admin` / `admin`
+- DAGs location: `./airflow/dags`
+- Auto-initialization: Enabled (database migration and admin user created automatically)
+- Connection string: `mysql+mysqldb://airflow:airflow@mysql:3306/airflow`
 
 ## Production Considerations
 

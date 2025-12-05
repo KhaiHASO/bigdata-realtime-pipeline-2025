@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   zookeeper:
     image: confluentinc/cp-zookeeper:7.4.0
@@ -101,6 +99,28 @@ services:
     networks:
       - pipeline-network
 
+  mysql:
+    image: mysql:8.0
+    hostname: mysql
+    container_name: mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: airflow
+      MYSQL_DATABASE: airflow
+      MYSQL_USER: airflow
+      MYSQL_PASSWORD: airflow
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - pipeline-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-pairflow"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
   airflow-webserver:
     build:
       context: ./airflow
@@ -108,14 +128,19 @@ services:
     hostname: airflow-webserver
     container_name: airflow-webserver
     depends_on:
-      - kafka
-      - cassandra
-      - flink-jobmanager
+      mysql:
+        condition: service_healthy
+      kafka:
+        condition: service_started
+      cassandra:
+        condition: service_started
+      flink-jobmanager:
+        condition: service_started
     ports:
       - "8080:8080"
     environment:
       - AIRFLOW__CORE__EXECUTOR=LocalExecutor
-      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=sqlite:////tmp/airflow.db
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=mysql+mysqldb://airflow:airflow@mysql:3306/airflow
       - AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION=true
       - AIRFLOW__CORE__LOAD_EXAMPLES=false
     volumes:
@@ -123,7 +148,18 @@ services:
       - airflow-logs:/opt/airflow/logs
     networks:
       - pipeline-network
-    command: webserver
+    command: >
+      bash -c "
+        airflow db migrate &&
+        airflow users create --username admin --firstname Admin --lastname User --role Admin --email admin@example.com --password admin 2>/dev/null || true &&
+        airflow webserver
+      "
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 90s
 
   airflow-scheduler:
     build:
@@ -132,12 +168,13 @@ services:
     hostname: airflow-scheduler
     container_name: airflow-scheduler
     depends_on:
-      - kafka
-      - cassandra
-      - flink-jobmanager
+      mysql:
+        condition: service_healthy
+      airflow-webserver:
+        condition: service_healthy
     environment:
       - AIRFLOW__CORE__EXECUTOR=LocalExecutor
-      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=sqlite:////tmp/airflow.db
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=mysql+mysqldb://airflow:airflow@mysql:3306/airflow
       - AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION=true
       - AIRFLOW__CORE__LOAD_EXAMPLES=false
     volumes:
@@ -154,4 +191,5 @@ networks:
 volumes:
   cassandra-data:
   airflow-logs:
+  mysql-data:
 
