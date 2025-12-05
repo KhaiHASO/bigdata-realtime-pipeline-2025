@@ -2,6 +2,8 @@
 
 A complete real-time streaming data pipeline using Kafka, Apache Flink, and Cassandra, orchestrated with Docker Compose.
 
+📖 **For detailed demo scenarios and testing guides, see [DEMO.md](./DEMO.md)**
+
 ## Architecture
 
 ```
@@ -27,7 +29,10 @@ project/
 │   ├── Dockerfile              # Airflow image
 │   └── dags/
 │       └── kafka_flink_dag.py  # Airflow DAG
-└── README.md                   # This file
+├── scripts/
+│   └── init-cassandra.sh       # Helper script for Cassandra init
+├── README.md                   # This file (main documentation)
+└── DEMO.md                     # Demo scenarios and testing guides
 ```
 
 ## Prerequisites
