@@ -39,10 +39,10 @@ export const Analytics = () => {
   };
 
   return (
-    <div className="space-y-8 animate-\[fadein_0.25s_ease\]">
+    <div className="space-y-8 animate-[fadein_0.25s_ease]">
       <div>
-        <h1 className="text-3xl font-semibold mb-2 text-[#0A0A0A] tracking-tight">Bảng Điều Khiển Phân Tích</h1>
-        <p className="text-[#6B7280] tracking-tight">
+        <h1 className="text-3xl font-semibold mb-2 text-slate-900 tracking-tight">Bảng Điều Khiển Phân Tích</h1>
+        <p className="text-slate-500 tracking-tight">
           Phân tích và trực quan hóa thời gian thực
         </p>
       </div>
@@ -55,8 +55,8 @@ export const Analytics = () => {
             </CardHeader>
             <CardContent>
               <div className="flex items-center justify-between">
-                <div className="text-2xl font-bold text-[#0A0A0A]">{kpiData.totalRecords.toLocaleString()}</div>
-                <BarChart3 className="h-4 w-4 text-[#6B7280]" />
+                <div className="text-2xl font-bold text-slate-900">{kpiData.totalRecords.toLocaleString()}</div>
+                <BarChart3 className="h-4 w-4 text-slate-500" />
               </div>
             </CardContent>
           </Card>
@@ -67,8 +67,8 @@ export const Analytics = () => {
             </CardHeader>
             <CardContent>
               <div className="flex items-center justify-between">
-                <div className="text-2xl font-bold text-[#0A0A0A]">{kpiData.recordsPerSecond.toLocaleString()}</div>
-                <Activity className="h-4 w-4 text-[#6B7280]" />
+                <div className="text-2xl font-bold text-slate-900">{kpiData.recordsPerSecond.toLocaleString()}</div>
+                <Activity className="h-4 w-4 text-slate-500" />
               </div>
             </CardContent>
           </Card>
@@ -79,8 +79,8 @@ export const Analytics = () => {
             </CardHeader>
             <CardContent>
               <div className="flex items-center justify-between">
-                <div className="text-2xl font-bold text-[#0A0A0A]">{kpiData.averageLatency.toFixed(2)}ms</div>
-                <Zap className="h-4 w-4 text-[#6B7280]" />
+                <div className="text-2xl font-bold text-slate-900">{kpiData.averageLatency.toFixed(2)}ms</div>
+                <Zap className="h-4 w-4 text-slate-500" />
               </div>
             </CardContent>
           </Card>
@@ -91,8 +91,8 @@ export const Analytics = () => {
             </CardHeader>
             <CardContent>
               <div className="flex items-center justify-between">
-                <div className="text-2xl font-bold text-[#0A0A0A]">{kpiData.successRate.toFixed(1)}%</div>
-                <TrendingUp className="h-4 w-4 text-[#6B7280]" />
+                <div className="text-2xl font-bold text-slate-900">{kpiData.successRate.toFixed(1)}%</div>
+                <TrendingUp className="h-4 w-4 text-slate-500" />
               </div>
             </CardContent>
           </Card>
@@ -106,16 +106,18 @@ export const Analytics = () => {
             <CardDescription>Giá trị theo thời gian</CardDescription>
           </CardHeader>
           <CardContent className="p-5">
-            <ResponsiveContainer width="100%" height={300}>
-              <LineChart data={lineChartData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" />
-                <XAxis dataKey="time" stroke="#6B7280" />
-                <YAxis stroke="#6B7280" />
-                <Tooltip contentStyle={glassTooltipStyle} />
-                <Legend />
-                <Line type="monotone" dataKey="value" stroke="#0A84FF" strokeWidth={2} dot={{ fill: '#0A84FF', r: 4 }} />
-              </LineChart>
-            </ResponsiveContainer>
+            <div className="rounded-2xl bg-white/60 backdrop-blur-xl border border-white/30 p-4">
+              <ResponsiveContainer width="100%" height={300}>
+                <LineChart data={lineChartData}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" />
+                  <XAxis dataKey="time" stroke="#94a3b8" />
+                  <YAxis stroke="#94a3b8" />
+                  <Tooltip contentStyle={glassTooltipStyle} />
+                  <Legend />
+                  <Line type="monotone" dataKey="value" stroke="#0A84FF" strokeWidth={2} dot={{ fill: '#0A84FF', r: 4 }} />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
           </CardContent>
         </Card>
 
@@ -125,25 +127,27 @@ export const Analytics = () => {
             <CardDescription>Biểu đồ tròn theo danh mục</CardDescription>
           </CardHeader>
           <CardContent className="p-5">
-            <ResponsiveContainer width="100%" height={300}>
-              <PieChart>
-                <Pie
-                  data={pieData}
-                  cx="50%"
-                  cy="50%"
-                  labelLine={false}
-                  label={({ name, percent }) => `${name} ${percent ? (percent * 100).toFixed(0) : 0}%`}
-                  outerRadius={80}
-                  fill="#0A84FF"
-                  dataKey="value"
-                >
-                  {pieData.map((_, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                  ))}
-                </Pie>
-                <Tooltip contentStyle={glassTooltipStyle} />
-              </PieChart>
-            </ResponsiveContainer>
+            <div className="rounded-2xl bg-white/60 backdrop-blur-xl border border-white/30 p-4">
+              <ResponsiveContainer width="100%" height={300}>
+                <PieChart>
+                  <Pie
+                    data={pieData}
+                    cx="50%"
+                    cy="50%"
+                    labelLine={false}
+                    label={({ name, percent }) => `${name} ${percent ? (percent * 100).toFixed(0) : 0}%`}
+                    outerRadius={80}
+                    fill="#0A84FF"
+                    dataKey="value"
+                  >
+                    {pieData.map((_, index) => (
+                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    ))}
+                  </Pie>
+                  <Tooltip contentStyle={glassTooltipStyle} />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
           </CardContent>
         </Card>
       </div>
@@ -154,16 +158,18 @@ export const Analytics = () => {
           <CardDescription>Các điểm dữ liệu gần đây</CardDescription>
         </CardHeader>
         <CardContent className="p-5">
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={barData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" />
-              <XAxis dataKey="category" stroke="#6B7280" />
-              <YAxis stroke="#6B7280" />
-              <Tooltip contentStyle={glassTooltipStyle} />
-              <Legend />
-              <Bar dataKey="value" fill="#0A84FF" radius={[8, 8, 0, 0]} />
-            </BarChart>
-          </ResponsiveContainer>
+          <div className="rounded-2xl bg-white/60 backdrop-blur-xl border border-white/30 p-4">
+            <ResponsiveContainer width="100%" height={300}>
+              <BarChart data={barData}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" />
+                <XAxis dataKey="category" stroke="#94a3b8" />
+                <YAxis stroke="#94a3b8" />
+                <Tooltip contentStyle={glassTooltipStyle} />
+                <Legend />
+                <Bar dataKey="value" fill="#0A84FF" radius={[8, 8, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
         </CardContent>
       </Card>
     </div>

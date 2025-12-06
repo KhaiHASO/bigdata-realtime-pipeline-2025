@@ -8,7 +8,7 @@ export const MainLayout = () => {
       <Header />
       <div className="flex">
         <Sidebar />
-        <main className="flex-1 p-6 lg:p-8 animate-\[fadein_0.25s_ease\]">
+        <main className="flex-1 p-6 lg:p-8 animate-[fadein_0.25s_ease]">
           <Outlet />
         </main>
       </div>

@@ -50,10 +50,10 @@ export const Overview = () => {
   ];
 
   return (
-    <div className="space-y-8 animate-\[fadein_0.25s_ease\]">
+    <div className="space-y-8 animate-[fadein_0.25s_ease]">
       <div>
-        <h1 className="text-3xl font-semibold mb-2 text-[#0A0A0A] tracking-tight">Tổng Quan Pipeline</h1>
-        <p className="text-[#6B7280] tracking-tight">
+        <h1 className="text-3xl font-semibold mb-2 text-slate-900 tracking-tight">Tổng Quan Pipeline</h1>
+        <p className="text-slate-500 tracking-tight">
           Biểu diễn trực quan của pipeline xử lý dữ liệu lớn thời gian thực
         </p>
       </div>
@@ -84,16 +84,16 @@ export const Overview = () => {
                       <Icon size={32} />
                     </div>
                     {tooltip === step.name && (
-                      <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-4 py-2.5 glass-strong text-[#0A0A0A] text-sm rounded-xl whitespace-nowrap z-10 shadow-glass-lg border border-white/40">
+                      <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-4 py-2.5 bg-white/70 backdrop-blur-xl text-slate-900 text-sm rounded-xl whitespace-nowrap z-10 shadow-[0_8px_32px_rgba(0,0,0,0.06)] border border-white/40">
                         {step.description}
                       </div>
                     )}
-                    <div className="text-center mt-2 text-sm font-medium text-[#0A0A0A] tracking-tight">
+                    <div className="text-center mt-2 text-sm font-medium text-slate-900 tracking-tight">
                       {step.name}
                     </div>
                   </div>
                   {index < pipelineSteps.length - 1 && (
-                    <ArrowRight className="text-[#6B7280] animate-\[pulse_1.4s_ease-in-out\]" size={24} />
+                    <ArrowRight className="text-slate-500 animate-[pulse_1.4s_ease-in-out]" size={24} />
                   )}
                 </div>
               );
@@ -114,7 +114,7 @@ export const Overview = () => {
             <Button onClick={handleRunSimulation} disabled={isRunning}>
               {isRunning ? 'Mô Phỏng Đang Chạy...' : 'Chạy Mô Phỏng'}
             </Button>
-            <div className="text-sm text-[#6B7280] tracking-tight">
+            <div className="text-sm text-slate-500 tracking-tight">
               {isRunning 
                 ? '✓ Mô phỏng đang hoạt động. Dữ liệu đang được tạo theo thời gian thực.'
                 : 'Click nút để bắt đầu tạo dữ liệu mô phỏng trên tất cả các thành phần.'}
@@ -128,7 +128,7 @@ export const Overview = () => {
           <CardHeader>
             <CardTitle>Cách Hoạt Động</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-2 text-sm text-[#0A0A0A]">
+          <CardContent className="space-y-2 text-sm text-slate-900">
             <p>1. Dữ liệu được tạo từ các nguồn mô phỏng (mô phỏng CSV)</p>
             <p>2. Tin nhắn chảy qua các Kafka topics</p>
             <p>3. Spark Streaming xử lý dữ liệu theo thời gian thực</p>
@@ -141,7 +141,7 @@ export const Overview = () => {
           <CardHeader>
             <CardTitle>Tính Năng</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-2 text-sm text-[#0A0A0A]">
+          <CardContent className="space-y-2 text-sm text-slate-900">
             <p>✓ Tạo dữ liệu thời gian thực</p>
             <p>✓ Metrics và giám sát trực tiếp</p>
             <p>✓ Bảng điều khiển tương tác</p>

@@ -16,10 +16,10 @@ export const MongoDBUI = () => {
   };
 
   return (
-    <div className="space-y-8 animate-\[fadein_0.25s_ease\]">
+    <div className="space-y-8 animate-[fadein_0.25s_ease]">
       <div>
-        <h1 className="text-3xl font-semibold mb-2 text-[#0A0A0A] tracking-tight">Bảng Điều Khiển MongoDB (Mô Phỏng)</h1>
-        <p className="text-[#6B7280] tracking-tight">
+        <h1 className="text-3xl font-semibold mb-2 text-slate-900 tracking-tight">Bảng Điều Khiển MongoDB (Mô Phỏng)</h1>
+        <p className="text-slate-500 tracking-tight">
           Lưu trữ dữ liệu đã xử lý và các aggregation
         </p>
       </div>
@@ -42,39 +42,39 @@ export const MongoDBUI = () => {
                 Thêm Bản Ghi Ngẫu Nhiên
               </Button>
             </div>
-            <div className="flex items-center gap-2 text-sm text-[#6B7280] mb-4 tracking-tight">
+            <div className="flex items-center gap-2 text-sm text-slate-500 mb-4 tracking-tight">
               <Clock className="h-4 w-4" />
               Cập nhật lần cuối: {lastUpdate.toLocaleTimeString()}
             </div>
-            <div className="h-96 overflow-y-auto border border-white/40 rounded-2xl glass">
+            <div className="h-96 overflow-y-auto border border-white/40 rounded-2xl bg-white/60 backdrop-blur-xl">
               <table className="w-full text-sm">
-                <thead className="bg-[#F2F5FA] sticky top-0 border-b border-white/40">
+                <thead className="bg-white/70 backdrop-blur-xl sticky top-0 border-b border-white/40">
                   <tr>
-                    <th className="p-3 text-left text-[#0A0A0A] font-semibold tracking-tight">ID</th>
-                    <th className="p-3 text-left text-[#0A0A0A] font-semibold tracking-tight">Tên</th>
-                    <th className="p-3 text-left text-[#0A0A0A] font-semibold tracking-tight">Danh Mục</th>
-                    <th className="p-3 text-left text-[#0A0A0A] font-semibold tracking-tight">Số Tiền</th>
-                    <th className="p-3 text-left text-[#0A0A0A] font-semibold tracking-tight">Trạng Thái</th>
+                    <th className="p-3 text-left text-slate-900 font-semibold tracking-tight">ID</th>
+                    <th className="p-3 text-left text-slate-900 font-semibold tracking-tight">Tên</th>
+                    <th className="p-3 text-left text-slate-900 font-semibold tracking-tight">Danh Mục</th>
+                    <th className="p-3 text-left text-slate-900 font-semibold tracking-tight">Số Tiền</th>
+                    <th className="p-3 text-left text-slate-900 font-semibold tracking-tight">Trạng Thái</th>
                   </tr>
                 </thead>
                 <tbody>
                   {records.length === 0 ? (
                     <tr>
-                      <td colSpan={5} className="p-4 text-center text-[#6B7280] tracking-tight">
+                      <td colSpan={5} className="p-4 text-center text-slate-500 tracking-tight">
                         Chưa có bản ghi nào. Bắt đầu mô phỏng.
                       </td>
                     </tr>
                   ) : (
                     records.map((record) => (
-                      <tr key={record._id} className="border-b border-white/40 hover:bg-[#F5F7FB] transition-colors">
-                        <td className="p-3 font-mono text-xs text-[#0A0A0A]">{record._id.slice(0, 8)}...</td>
-                        <td className="p-3 text-[#0A0A0A]">{record.name}</td>
+                      <tr key={record._id} className="border-b border-white/40 hover:bg-white/50 transition-colors">
+                        <td className="p-3 font-mono text-xs text-slate-900">{record._id.slice(0, 8)}...</td>
+                        <td className="p-3 text-slate-900">{record.name}</td>
                         <td className="p-3">
                           <span className="px-2 py-1 bg-[#0A84FF]/10 text-[#0A84FF] rounded-lg text-xs font-medium">
                             {record.category}
                           </span>
                         </td>
-                        <td className="p-3 text-[#0A0A0A] font-medium">${record.amount}</td>
+                        <td className="p-3 text-slate-900 font-medium">${record.amount}</td>
                         <td className="p-3">
                           {record.processed ? (
                             <span className="text-[#0A84FF] text-xs font-medium">✓ Đã Xử Lý</span>
@@ -101,21 +101,21 @@ export const MongoDBUI = () => {
           <CardContent>
             <div className="space-y-4">
               {aggregations.length === 0 ? (
-                <div className="text-center text-[#6B7280] py-8 tracking-tight">
+                <div className="text-center text-slate-500 py-8 tracking-tight">
                   Chưa có aggregation nào. Bắt đầu mô phỏng.
                 </div>
               ) : (
                 aggregations.map((agg) => (
-                  <div key={agg.category} className="p-4 glass border border-white/40 rounded-xl hover:bg-white/40 hover:translate-y-[-2px] transition-all duration-300">
+                  <div key={agg.category} className="p-4 bg-white/40 backdrop-blur-xl border border-white/40 rounded-xl hover:bg-white/50 hover:translate-y-[-2px] transition-all duration-300 ease-[cubic-bezier(.4,0,.2,1)]">
                     <div className="flex items-center justify-between mb-2">
-                      <span className="font-medium capitalize text-[#0A0A0A]">{agg.category}</span>
-                      <span className="text-sm text-[#6B7280] tracking-tight">
+                      <span className="font-medium capitalize text-slate-900">{agg.category}</span>
+                      <span className="text-sm text-slate-500 tracking-tight">
                         {agg.count} bản ghi
                       </span>
                     </div>
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm text-[#6B7280] tracking-tight">Tổng Số Tiền</span>
-                      <span className="font-bold text-[#0A0A0A]">${agg.totalAmount.toLocaleString()}</span>
+                      <span className="text-sm text-slate-500 tracking-tight">Tổng Số Tiền</span>
+                      <span className="font-bold text-slate-900">${agg.totalAmount.toLocaleString()}</span>
                     </div>
                     <div className="mt-2 w-full bg-white/40 rounded-full h-2">
                       <div

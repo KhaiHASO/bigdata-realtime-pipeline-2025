@@ -24,10 +24,10 @@ export const About = () => {
   ];
 
   return (
-    <div className="space-y-8 animate-\[fadein_0.25s_ease\]">
+    <div className="space-y-8 animate-[fadein_0.25s_ease]">
       <div>
-        <h1 className="text-3xl font-semibold mb-2 text-[#0A0A0A] tracking-tight">Giới Thiệu Về Mô Phỏng Này</h1>
-        <p className="text-[#6B7280] tracking-tight">
+        <h1 className="text-3xl font-semibold mb-2 text-slate-900 tracking-tight">Giới Thiệu Về Mô Phỏng Này</h1>
+        <p className="text-slate-500 tracking-tight">
           Tìm hiểu về các công nghệ và lý do chúng ta sử dụng mô phỏng
         </p>
       </div>
@@ -40,13 +40,13 @@ export const About = () => {
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <p className="text-[#0A0A0A]">
+          <p className="text-slate-900">
             Ứng dụng frontend này mô phỏng một pipeline xử lý dữ liệu lớn thời gian thực hoàn chỉnh
             sử dụng <strong>dữ liệu mô phỏng</strong> thay vì các thành phần hạ tầng thực tế.
           </p>
           <div className="space-y-2">
-            <h3 className="font-semibold text-[#0A0A0A] tracking-tight">Lợi Ích Của Mô Phỏng:</h3>
-            <ul className="list-disc list-inside space-y-1 text-sm text-[#6B7280] tracking-tight">
+            <h3 className="font-semibold text-slate-900 tracking-tight">Lợi Ích Của Mô Phỏng:</h3>
+            <ul className="list-disc list-inside space-y-1 text-sm text-slate-500 tracking-tight">
               <li>Không cần setup - không cần Docker, databases, hay cấu hình phức tạp</li>
               <li>Nhẹ - chạy hoàn toàn trong trình duyệt</li>
               <li>Di động - có thể deploy ở bất kỳ đâu (Vercel, Netlify, GitHub Pages)</li>
@@ -56,8 +56,8 @@ export const About = () => {
             </ul>
           </div>
           <div className="space-y-2">
-            <h3 className="font-semibold text-[#0A0A0A] tracking-tight">Khi Nào Sử Dụng Hạ Tầng Thực Tế:</h3>
-            <ul className="list-disc list-inside space-y-1 text-sm text-[#6B7280] tracking-tight">
+            <h3 className="font-semibold text-slate-900 tracking-tight">Khi Nào Sử Dụng Hạ Tầng Thực Tế:</h3>
+            <ul className="list-disc list-inside space-y-1 text-sm text-slate-500 tracking-tight">
               <li>Học các chi tiết nội bộ hệ thống thực tế</li>
               <li>Kiểm thử hiệu suất và benchmark</li>
               <li>Phát triển production</li>
@@ -68,7 +68,7 @@ export const About = () => {
       </Card>
 
       <div className="space-y-4">
-        <h2 className="text-2xl font-semibold text-[#0A0A0A] tracking-tight">Giải Thích Các Công Nghệ</h2>
+        <h2 className="text-2xl font-semibold text-slate-900 tracking-tight">Giải Thích Các Công Nghệ</h2>
         {technologies.map((tech) => {
           const Icon = tech.icon;
           return (
@@ -80,7 +80,7 @@ export const About = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-[#6B7280] tracking-tight">{tech.description}</p>
+                <p className="text-slate-500 tracking-tight">{tech.description}</p>
               </CardContent>
             </Card>
           );
@@ -92,7 +92,7 @@ export const About = () => {
           <CardTitle>Luồng Pipeline</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="space-y-2 text-sm text-[#0A0A0A] tracking-tight">
+          <div className="space-y-2 text-sm text-slate-900 tracking-tight">
             <p>
               <strong>1. Thu Thập Dữ Liệu:</strong> Dữ liệu được tạo từ nhiều nguồn khác nhau (file CSV, APIs, v.v.)
             </p>

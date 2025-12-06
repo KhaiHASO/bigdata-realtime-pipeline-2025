@@ -10,15 +10,15 @@ export interface ButtonProps
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant = "default", size = "default", ...props }, ref) => {
     // Base classes
-    const baseClasses = "inline-flex items-center justify-center whitespace-nowrap rounded-full text-sm font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50";
+    const baseClasses = "inline-flex items-center justify-center whitespace-nowrap rounded-full text-sm font-medium transition-all duration-300 ease-[cubic-bezier(.4,0,.2,1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50";
     
-    // Variant classes - each unique
+    // Variant classes - each unique (iOS 26 style)
     const variantClasses = {
       default: "bg-[#0A84FF] text-white shadow-md hover:bg-[#006fdd] active:scale-95 focus-visible:ring-[#0A84FF]",
       destructive: "bg-[#FF3B30] text-white shadow-md hover:bg-[#E6342A] active:scale-95 focus-visible:ring-[#FF3B30]",
-      outline: "glass border border-white/40 text-[#0A0A0A] hover:bg-white/50 active:scale-95 focus-visible:ring-[#0A84FF]",
-      secondary: "glass-strong border border-white/50 text-[#0A0A0A] hover:bg-white/60 active:scale-95 focus-visible:ring-[#7D5FFF]",
-      ghost: "hover:bg-white/30 text-[#0A0A0A] active:scale-95 focus-visible:ring-[#0A84FF]",
+      outline: "bg-white/40 backdrop-blur-xl border border-white/30 text-slate-900 hover:bg-white/50 active:scale-95 focus-visible:ring-[#0A84FF]",
+      secondary: "bg-white/40 backdrop-blur-xl border border-white/30 text-slate-900 hover:bg-white/50 active:scale-95 focus-visible:ring-[#7D5FFF]",
+      ghost: "hover:bg-white/30 text-slate-900 active:scale-95 focus-visible:ring-[#0A84FF]",
       link: "text-[#0A84FF] underline-offset-4 hover:underline focus-visible:ring-[#0A84FF]",
     };
     
