@@ -27,21 +27,21 @@ export const Sidebar = () => {
 
   return (
     <div className={cn(
-      "bg-white/60 backdrop-blur-xl border border-white/30 shadow-[0_8px_32px_rgba(0,0,0,0.06)] transition-all duration-300 h-screen sticky top-0 rounded-r-3xl m-3",
-      isCollapsed ? "w-16" : "w-[240px]"
+      "bg-card border-r border-border transition-all duration-300 h-screen sticky top-0",
+      isCollapsed ? "w-16" : "w-64"
     )}>
-      <div className="p-5 border-b border-white/30 flex items-center justify-between">
+      <div className="p-4 border-b border-border flex items-center justify-between">
         {!isCollapsed && (
-          <h2 className="text-lg font-semibold text-slate-900 tracking-tight">Mô Phỏng Pipeline</h2>
+          <h2 className="text-lg font-semibold">Mô Phỏng Pipeline</h2>
         )}
         <button
           onClick={() => setIsCollapsed(!isCollapsed)}
-          className="p-2 hover:bg-white/30 rounded-xl transition-all duration-300 ease-[cubic-bezier(.4,0,.2,1)] active:scale-95"
+          className="p-2 hover:bg-accent rounded-md"
         >
-          {isCollapsed ? <Menu size={20} className="text-slate-900" /> : <X size={20} className="text-slate-900" />}
+          {isCollapsed ? <Menu size={20} /> : <X size={20} />}
         </button>
       </div>
-      <nav className="p-5 space-y-3">
+      <nav className="p-4 space-y-2">
         {menuItems.map((item) => {
           const Icon = item.icon;
           const isActive = location.pathname === item.path;
@@ -50,14 +50,14 @@ export const Sidebar = () => {
               key={item.path}
               to={item.path}
               className={cn(
-                "flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 ease-[cubic-bezier(.4,0,.2,1)] text-slate-900 font-medium tracking-tight",
+                "flex items-center gap-3 px-3 py-2 rounded-md transition-colors",
                 isActive
-                  ? "bg-white/50 border border-white/40 shadow-inner"
-                  : "hover:bg-white/30 hover:translate-y-[-2px]"
+                  ? "bg-primary text-primary-foreground"
+                  : "hover:bg-accent"
               )}
             >
               <Icon size={20} />
-              {!isCollapsed && <span className="text-sm">{item.label}</span>}
+              {!isCollapsed && <span>{item.label}</span>}
             </Link>
           );
         })}

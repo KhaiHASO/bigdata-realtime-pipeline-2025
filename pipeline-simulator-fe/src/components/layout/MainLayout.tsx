@@ -4,11 +4,11 @@ import { Header } from './Header';
 
 export const MainLayout = () => {
   return (
-    <div className="min-h-screen bg-[#F8FAFF]">
+    <div className="min-h-screen bg-background">
       <Header />
       <div className="flex">
         <Sidebar />
-        <main className="flex-1 p-6 lg:p-8 animate-[fadein_0.25s_ease]">
+        <main className="flex-1 p-6">
           <Outlet />
         </main>
       </div>

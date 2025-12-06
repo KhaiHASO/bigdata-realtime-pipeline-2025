@@ -16,15 +16,15 @@ export const MongoDBUI = () => {
   };
 
   return (
-    <div className="space-y-8 animate-[fadein_0.25s_ease]">
+    <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-semibold mb-2 text-slate-900 tracking-tight">Bảng Điều Khiển MongoDB (Mô Phỏng)</h1>
-        <p className="text-slate-500 tracking-tight">
+        <h1 className="text-3xl font-bold mb-2">Bảng Điều Khiển MongoDB (Mô Phỏng)</h1>
+        <p className="text-muted-foreground">
           Lưu trữ dữ liệu đã xử lý và các aggregation
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -42,44 +42,44 @@ export const MongoDBUI = () => {
                 Thêm Bản Ghi Ngẫu Nhiên
               </Button>
             </div>
-            <div className="flex items-center gap-2 text-sm text-slate-500 mb-4 tracking-tight">
+            <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
               <Clock className="h-4 w-4" />
               Cập nhật lần cuối: {lastUpdate.toLocaleTimeString()}
             </div>
-            <div className="h-96 overflow-y-auto border border-white/40 rounded-2xl bg-white/60 backdrop-blur-xl">
+            <div className="h-96 overflow-y-auto border rounded-lg">
               <table className="w-full text-sm">
-                <thead className="bg-white/70 backdrop-blur-xl sticky top-0 border-b border-white/40">
+                <thead className="bg-muted sticky top-0">
                   <tr>
-                    <th className="p-3 text-left text-slate-900 font-semibold tracking-tight">ID</th>
-                    <th className="p-3 text-left text-slate-900 font-semibold tracking-tight">Tên</th>
-                    <th className="p-3 text-left text-slate-900 font-semibold tracking-tight">Danh Mục</th>
-                    <th className="p-3 text-left text-slate-900 font-semibold tracking-tight">Số Tiền</th>
-                    <th className="p-3 text-left text-slate-900 font-semibold tracking-tight">Trạng Thái</th>
+                    <th className="p-2 text-left">ID</th>
+                    <th className="p-2 text-left">Tên</th>
+                    <th className="p-2 text-left">Danh Mục</th>
+                    <th className="p-2 text-left">Số Tiền</th>
+                    <th className="p-2 text-left">Trạng Thái</th>
                   </tr>
                 </thead>
                 <tbody>
                   {records.length === 0 ? (
                     <tr>
-                      <td colSpan={5} className="p-4 text-center text-slate-500 tracking-tight">
+                      <td colSpan={5} className="p-4 text-center text-muted-foreground">
                         Chưa có bản ghi nào. Bắt đầu mô phỏng.
                       </td>
                     </tr>
                   ) : (
                     records.map((record) => (
-                      <tr key={record._id} className="border-b border-white/40 hover:bg-white/50 transition-colors">
-                        <td className="p-3 font-mono text-xs text-slate-900">{record._id.slice(0, 8)}...</td>
-                        <td className="p-3 text-slate-900">{record.name}</td>
-                        <td className="p-3">
-                          <span className="px-2 py-1 bg-[#0A84FF]/10 text-[#0A84FF] rounded-lg text-xs font-medium">
+                      <tr key={record._id} className="border-b hover:bg-accent">
+                        <td className="p-2 font-mono text-xs">{record._id.slice(0, 8)}...</td>
+                        <td className="p-2">{record.name}</td>
+                        <td className="p-2">
+                          <span className="px-2 py-1 bg-primary/10 text-primary rounded text-xs">
                             {record.category}
                           </span>
                         </td>
-                        <td className="p-3 text-slate-900 font-medium">${record.amount}</td>
-                        <td className="p-3">
+                        <td className="p-2">${record.amount}</td>
+                        <td className="p-2">
                           {record.processed ? (
-                            <span className="text-[#0A84FF] text-xs font-medium">✓ Đã Xử Lý</span>
+                            <span className="text-green-600 text-xs">✓ Đã Xử Lý</span>
                           ) : (
-                            <span className="text-[#FF9500] text-xs font-medium">Đang Chờ</span>
+                            <span className="text-yellow-600 text-xs">Đang Chờ</span>
                           )}
                         </td>
                       </tr>
@@ -101,25 +101,25 @@ export const MongoDBUI = () => {
           <CardContent>
             <div className="space-y-4">
               {aggregations.length === 0 ? (
-                <div className="text-center text-slate-500 py-8 tracking-tight">
+                <div className="text-center text-muted-foreground py-8">
                   Chưa có aggregation nào. Bắt đầu mô phỏng.
                 </div>
               ) : (
                 aggregations.map((agg) => (
-                  <div key={agg.category} className="p-4 bg-white/40 backdrop-blur-xl border border-white/40 rounded-xl hover:bg-white/50 hover:translate-y-[-2px] transition-all duration-300 ease-[cubic-bezier(.4,0,.2,1)]">
+                  <div key={agg.category} className="p-4 border rounded-lg">
                     <div className="flex items-center justify-between mb-2">
-                      <span className="font-medium capitalize text-slate-900">{agg.category}</span>
-                      <span className="text-sm text-slate-500 tracking-tight">
+                      <span className="font-medium capitalize">{agg.category}</span>
+                      <span className="text-sm text-muted-foreground">
                         {agg.count} bản ghi
                       </span>
                     </div>
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm text-slate-500 tracking-tight">Tổng Số Tiền</span>
-                      <span className="font-bold text-slate-900">${agg.totalAmount.toLocaleString()}</span>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-muted-foreground">Tổng Số Tiền</span>
+                      <span className="font-bold">${agg.totalAmount.toLocaleString()}</span>
                     </div>
-                    <div className="mt-2 w-full bg-white/40 rounded-full h-2">
+                    <div className="mt-2 w-full bg-muted rounded-full h-2">
                       <div
-                        className="bg-[#0A84FF] h-2 rounded-full transition-all duration-300"
+                        className="bg-primary h-2 rounded-full"
                         style={{ width: `${(agg.count / 1000) * 100}%` }}
                       />
                     </div>

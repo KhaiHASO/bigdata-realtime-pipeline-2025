@@ -22,19 +22,13 @@ export const Header = () => {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-white/60 backdrop-blur-xl rounded-b-3xl shadow-[0_4px_24px_rgba(0,0,0,0.05)] border-b border-white/30 mx-3 mt-3">
-      <div className="flex h-20 items-center justify-between px-8">
+    <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="container flex h-16 items-center justify-between px-4">
         <div className="flex items-center gap-4">
-          <h1 className="text-xl font-semibold text-slate-900 tracking-tight">Mô Phỏng Pipeline Dữ Liệu Lớn Thời Gian Thực</h1>
-          {isRunning && (
-            <div className="flex items-center gap-2 px-3 py-1.5 bg-white/40 backdrop-blur-xl rounded-full border border-white/50 shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
-              <div className="w-2 h-2 bg-[#0A84FF] rounded-full animate-[pulse_1.4s_ease-in-out]"></div>
-              <span className="text-xs text-slate-500 font-medium tracking-tight">Đang chạy</span>
-            </div>
-          )}
+          <h1 className="text-xl font-bold">Mô Phỏng Pipeline Dữ Liệu Lớn Thời Gian Thực</h1>
         </div>
         <div className="flex items-center gap-4">
-          <div className="text-sm font-mono text-slate-500 px-4 py-2 bg-white/40 backdrop-blur-xl rounded-full border border-white/40 shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
+          <div className="text-sm font-mono">
             {time.toLocaleTimeString()}
           </div>
           <Button
