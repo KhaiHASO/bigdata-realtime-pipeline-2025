@@ -20,15 +20,15 @@ export const KafkaUI = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8 animate-\[fadein_0.25s_ease\]">
       <div>
-        <h1 className="text-3xl font-bold mb-2">Giao Diện Kafka (Mô Phỏng)</h1>
-        <p className="text-muted-foreground">
+        <h1 className="text-3xl font-semibold mb-2 text-[#0A0A0A] tracking-tight">Giao Diện Kafka (Mô Phỏng)</h1>
+        <p className="text-[#6B7280] tracking-tight">
           Luồng tin nhắn thời gian thực từ các Kafka topics
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         <Card>
           <CardHeader>
             <CardTitle>Topics</CardTitle>
@@ -37,9 +37,9 @@ export const KafkaUI = () => {
           <CardContent>
             <div className="space-y-2">
               {topics.map((topic) => (
-                <div key={topic} className="flex items-center justify-between p-2 bg-muted rounded">
-                  <span className="font-mono text-sm">{topic}</span>
-                  <span className="text-xs text-muted-foreground">
+                <div key={topic} className="flex items-center justify-between p-3 glass border border-white/40 rounded-xl hover:bg-white/40 transition-all">
+                  <span className="font-mono text-sm text-[#0A0A0A]">{topic}</span>
+                  <span className="text-xs text-[#6B7280]">
                     {messages.filter(m => m.topic === topic).length} tin nhắn
                   </span>
                 </div>
@@ -56,8 +56,8 @@ export const KafkaUI = () => {
           <CardContent>
             <div className="space-y-2">
               {consumerGroups.map((group) => (
-                <div key={group} className="p-2 bg-muted rounded">
-                  <span className="font-mono text-sm">{group}</span>
+                <div key={group} className="p-3 glass border border-white/40 rounded-xl hover:bg-white/40 transition-all">
+                  <span className="font-mono text-sm text-[#0A0A0A]">{group}</span>
                 </div>
               ))}
             </div>
@@ -89,31 +89,31 @@ export const KafkaUI = () => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="h-96 overflow-y-auto space-y-2 border rounded-lg p-4 bg-muted/50">
+          <div className="h-96 overflow-y-auto space-y-2 border border-white/40 rounded-2xl p-4 glass">
             {messages.length === 0 ? (
-              <div className="text-center text-muted-foreground py-8">
+              <div className="text-center text-[#6B7280] py-8 tracking-tight">
                 Chưa có tin nhắn nào. Bắt đầu mô phỏng để xem tin nhắn.
               </div>
             ) : (
               messages.map((message) => (
                 <div
                   key={message.id}
-                  className="p-3 bg-background border rounded-md hover:bg-accent transition-colors"
+                  className="p-3 glass border border-white/40 rounded-xl hover:bg-white/40 hover:translate-y-[-2px] transition-all duration-300"
                 >
                   <div className="flex items-start justify-between mb-2">
                     <div className="flex items-center gap-2">
-                      <span className="font-mono text-xs text-muted-foreground">
+                      <span className="font-mono text-xs text-[#6B7280]">
                         {message.topic}
                       </span>
-                      <span className="text-xs text-muted-foreground">
+                      <span className="text-xs text-[#6B7280]">
                         P:{message.partition} O:{message.offset}
                       </span>
                     </div>
-                    <span className="text-xs text-muted-foreground">
+                    <span className="text-xs text-[#6B7280]">
                       {new Date(message.timestamp).toLocaleTimeString()}
                     </span>
                   </div>
-                  <pre className="text-xs bg-muted p-2 rounded overflow-x-auto">
+                  <pre className="text-xs glass border border-white/40 p-2 rounded-lg overflow-x-auto text-[#0A0A0A]">
                     {JSON.stringify(message.value, null, 2)}
                   </pre>
                 </div>

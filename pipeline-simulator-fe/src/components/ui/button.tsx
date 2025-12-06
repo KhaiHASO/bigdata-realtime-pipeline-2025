@@ -9,22 +9,33 @@ export interface ButtonProps
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant = "default", size = "default", ...props }, ref) => {
+    // Base classes
+    const baseClasses = "inline-flex items-center justify-center whitespace-nowrap rounded-full text-sm font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50";
+    
+    // Variant classes - each unique
+    const variantClasses = {
+      default: "bg-[#0A84FF] text-white shadow-md hover:bg-[#006fdd] active:scale-95 focus-visible:ring-[#0A84FF]",
+      destructive: "bg-[#FF3B30] text-white shadow-md hover:bg-[#E6342A] active:scale-95 focus-visible:ring-[#FF3B30]",
+      outline: "glass border border-white/40 text-[#0A0A0A] hover:bg-white/50 active:scale-95 focus-visible:ring-[#0A84FF]",
+      secondary: "glass-strong border border-white/50 text-[#0A0A0A] hover:bg-white/60 active:scale-95 focus-visible:ring-[#7D5FFF]",
+      ghost: "hover:bg-white/30 text-[#0A0A0A] active:scale-95 focus-visible:ring-[#0A84FF]",
+      link: "text-[#0A84FF] underline-offset-4 hover:underline focus-visible:ring-[#0A84FF]",
+    };
+    
+    // Size classes - padding included to avoid conflicts
+    const sizeClasses = {
+      default: "h-10 px-6 py-3",
+      sm: "h-9 px-4 py-2 text-xs",
+      lg: "h-11 px-8 py-3 text-base",
+      icon: "h-10 w-10 p-0",
+    };
+    
     return (
       <button
         className={cn(
-          "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
-          {
-            "bg-primary text-primary-foreground hover:bg-primary/90": variant === "default",
-            "bg-destructive text-destructive-foreground hover:bg-destructive/90": variant === "destructive",
-            "border border-input bg-background hover:bg-accent hover:text-accent-foreground": variant === "outline",
-            "bg-secondary text-secondary-foreground hover:bg-secondary/80": variant === "secondary",
-            "hover:bg-accent hover:text-accent-foreground": variant === "ghost",
-            "text-primary underline-offset-4 hover:underline": variant === "link",
-            "h-10 px-4 py-2": size === "default",
-            "h-9 rounded-md px-3": size === "sm",
-            "h-11 rounded-md px-8": size === "lg",
-            "h-10 w-10": size === "icon",
-          },
+          baseClasses,
+          variantClasses[variant],
+          sizeClasses[size],
           className
         )}
         ref={ref}

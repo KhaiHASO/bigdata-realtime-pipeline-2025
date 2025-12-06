@@ -50,10 +50,10 @@ export const Overview = () => {
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8 animate-\[fadein_0.25s_ease\]">
       <div>
-        <h1 className="text-3xl font-bold mb-2">Tổng Quan Pipeline</h1>
-        <p className="text-muted-foreground">
+        <h1 className="text-3xl font-semibold mb-2 text-[#0A0A0A] tracking-tight">Tổng Quan Pipeline</h1>
+        <p className="text-[#6B7280] tracking-tight">
           Biểu diễn trực quan của pipeline xử lý dữ liệu lớn thời gian thực
         </p>
       </div>
@@ -66,7 +66,7 @@ export const Overview = () => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="flex items-center justify-center gap-4 flex-wrap py-8">
+          <div className="flex items-center justify-center gap-6 flex-wrap py-8">
             {pipelineSteps.map((step, index) => {
               const Icon = step.icon;
               return (
@@ -78,22 +78,22 @@ export const Overview = () => {
                   >
                     <div className={`
                       ${step.color} 
-                      w-24 h-24 rounded-lg flex items-center justify-center 
-                      text-white shadow-lg hover:scale-110 transition-transform cursor-pointer
+                      w-24 h-24 rounded-xl flex items-center justify-center 
+                      text-white shadow-lg hover:scale-110 transition-all duration-300 cursor-pointer
                     `}>
                       <Icon size={32} />
                     </div>
                     {tooltip === step.name && (
-                      <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-900 text-white text-sm rounded whitespace-nowrap z-10">
+                      <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-4 py-2.5 glass-strong text-[#0A0A0A] text-sm rounded-xl whitespace-nowrap z-10 shadow-glass-lg border border-white/40">
                         {step.description}
                       </div>
                     )}
-                    <div className="text-center mt-2 text-sm font-medium">
+                    <div className="text-center mt-2 text-sm font-medium text-[#0A0A0A] tracking-tight">
                       {step.name}
                     </div>
                   </div>
                   {index < pipelineSteps.length - 1 && (
-                    <ArrowRight className="text-muted-foreground animate-pulse" size={24} />
+                    <ArrowRight className="text-[#6B7280] animate-\[pulse_1.4s_ease-in-out\]" size={24} />
                   )}
                 </div>
               );
@@ -114,7 +114,7 @@ export const Overview = () => {
             <Button onClick={handleRunSimulation} disabled={isRunning}>
               {isRunning ? 'Mô Phỏng Đang Chạy...' : 'Chạy Mô Phỏng'}
             </Button>
-            <div className="text-sm text-muted-foreground">
+            <div className="text-sm text-[#6B7280] tracking-tight">
               {isRunning 
                 ? '✓ Mô phỏng đang hoạt động. Dữ liệu đang được tạo theo thời gian thực.'
                 : 'Click nút để bắt đầu tạo dữ liệu mô phỏng trên tất cả các thành phần.'}
@@ -123,12 +123,12 @@ export const Overview = () => {
         </CardContent>
       </Card>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <Card>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <Card className="bg-gradient-to-br from-white/70 to-white/40">
           <CardHeader>
             <CardTitle>Cách Hoạt Động</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-2 text-sm">
+          <CardContent className="space-y-2 text-sm text-[#0A0A0A]">
             <p>1. Dữ liệu được tạo từ các nguồn mô phỏng (mô phỏng CSV)</p>
             <p>2. Tin nhắn chảy qua các Kafka topics</p>
             <p>3. Spark Streaming xử lý dữ liệu theo thời gian thực</p>
@@ -137,11 +137,11 @@ export const Overview = () => {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="bg-gradient-to-br from-white/70 to-white/40">
           <CardHeader>
             <CardTitle>Tính Năng</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-2 text-sm">
+          <CardContent className="space-y-2 text-sm text-[#0A0A0A]">
             <p>✓ Tạo dữ liệu thời gian thực</p>
             <p>✓ Metrics và giám sát trực tiếp</p>
             <p>✓ Bảng điều khiển tương tác</p>
