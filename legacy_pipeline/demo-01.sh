@@ -82,19 +82,60 @@ wait_user
 print_step "4" "Chạy Producer"
 echo "Checking producer dependencies..."
 cd producer
-if [ ! -d "venv" ] && ! python3 -c "import kafka" 2>/dev/null; then
-    echo "Installing dependencies..."
+
+# Function to setup and use venv or fallback
+setup_producer_env() {
+    # Try to create virtual environment if it doesn't exist
+    if [ ! -d "venv" ]; then
+        echo "Creating virtual environment..."
+        if python3 -m venv venv 2>/dev/null; then
+            echo "✓ Virtual environment created"
+        else
+            echo "⚠ Virtual environment creation failed, using system Python with --break-system-packages"
+            USE_SYSTEM_PYTHON=true
+            return
+        fi
+    fi
+    
+    # Check if venv is valid
+    if [ -f "venv/bin/activate" ]; then
+        source venv/bin/activate
+        USE_SYSTEM_PYTHON=false
+    else
+        echo "⚠ Virtual environment invalid, using system Python with --break-system-packages"
+        USE_SYSTEM_PYTHON=true
+    fi
+}
+
+# Setup environment
+setup_producer_env
+
+# Install dependencies
+echo "Installing dependencies..."
+if [ "$USE_SYSTEM_PYTHON" = "true" ]; then
+    pip3 install -q --break-system-packages --upgrade pip
+    pip3 install -q --break-system-packages -r requirements.txt
+    PYTHON_CMD="python3"
+else
+    pip install -q --upgrade pip
     pip install -q -r requirements.txt
+    PYTHON_CMD="python"
 fi
 
 echo "Running producer (sending 10 messages)..."
-python3 -c "
+$PYTHON_CMD -c "
 from producer import *
 producer = create_producer()
 send_messages(producer, 'users', num_messages=10, delay=0.5)
 producer.close()
 print('✓ Producer completed!')
 "
+
+# Deactivate if using venv
+if [ "$USE_SYSTEM_PYTHON" != "true" ]; then
+    deactivate
+fi
+
 cd ..
 wait_user
 

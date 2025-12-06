@@ -44,17 +44,42 @@ wait_user
 
 echo "Sending messages to Kafka (Flink is down)..."
 cd producer
-if [ ! -d "venv" ] && ! python3 -c "import kafka" 2>/dev/null; then
-    pip install -q -r requirements.txt
+
+# Setup environment with fallback
+if [ ! -d "venv" ]; then
+    if python3 -m venv venv 2>/dev/null; then
+        USE_VENV=true
+    else
+        USE_VENV=false
+    fi
+else
+    USE_VENV=true
 fi
 
-python3 -c "
+if [ "$USE_VENV" = "true" ] && [ -f "venv/bin/activate" ]; then
+    source venv/bin/activate
+    pip install -q --upgrade pip
+    pip install -q -r requirements.txt
+    PYTHON_CMD="python"
+    USE_VENV_FLAG=true
+else
+    pip3 install -q --break-system-packages --upgrade pip
+    pip3 install -q --break-system-packages -r requirements.txt
+    PYTHON_CMD="python3"
+    USE_VENV_FLAG=false
+fi
+
+$PYTHON_CMD -c "
 from producer import *
 producer = create_producer()
 send_messages(producer, 'users', num_messages=10, delay=0.3)
 producer.close()
 print('✓ Messages sent to Kafka')
 "
+
+if [ "$USE_VENV_FLAG" = "true" ]; then
+    deactivate
+fi
 cd ..
 wait_user
 
@@ -90,7 +115,32 @@ wait_user
 
 echo "Attempting to send messages (Kafka is down)..."
 cd producer
-python3 -c "
+
+# Setup environment with fallback
+if [ ! -d "venv" ]; then
+    if python3 -m venv venv 2>/dev/null; then
+        USE_VENV=true
+    else
+        USE_VENV=false
+    fi
+else
+    USE_VENV=true
+fi
+
+if [ "$USE_VENV" = "true" ] && [ -f "venv/bin/activate" ]; then
+    source venv/bin/activate
+    pip install -q --upgrade pip
+    pip install -q -r requirements.txt
+    PYTHON_CMD="python"
+    USE_VENV_FLAG=true
+else
+    pip3 install -q --break-system-packages --upgrade pip
+    pip3 install -q --break-system-packages -r requirements.txt
+    PYTHON_CMD="python3"
+    USE_VENV_FLAG=false
+fi
+
+$PYTHON_CMD -c "
 from producer import *
 try:
     producer = create_producer()
@@ -98,6 +148,10 @@ try:
 except Exception as e:
     print(f'✓ Expected error: {type(e).__name__}')
 " 2>&1 | head -3
+
+if [ "$USE_VENV_FLAG" = "true" ]; then
+    deactivate
+fi
 cd ..
 wait_user
 
@@ -108,13 +162,42 @@ sleep 15
 
 echo "Sending messages again (Kafka is up)..."
 cd producer
-python3 -c "
+
+# Setup environment with fallback
+if [ ! -d "venv" ]; then
+    if python3 -m venv venv 2>/dev/null; then
+        USE_VENV=true
+    else
+        USE_VENV=false
+    fi
+else
+    USE_VENV=true
+fi
+
+if [ "$USE_VENV" = "true" ] && [ -f "venv/bin/activate" ]; then
+    source venv/bin/activate
+    pip install -q --upgrade pip
+    pip install -q -r requirements.txt
+    PYTHON_CMD="python"
+    USE_VENV_FLAG=true
+else
+    pip3 install -q --break-system-packages --upgrade pip
+    pip3 install -q --break-system-packages -r requirements.txt
+    PYTHON_CMD="python3"
+    USE_VENV_FLAG=false
+fi
+
+$PYTHON_CMD -c "
 from producer import *
 producer = create_producer()
 send_messages(producer, 'users', num_messages=5, delay=0.3)
 producer.close()
 print('✓ Messages sent successfully after Kafka restart')
 "
+
+if [ "$USE_VENV_FLAG" = "true" ]; then
+    deactivate
+fi
 cd ..
 wait_user
 
@@ -133,13 +216,42 @@ wait_user
 
 echo "Sending messages to Kafka (Cassandra is down)..."
 cd producer
-python3 -c "
+
+# Setup environment with fallback
+if [ ! -d "venv" ]; then
+    if python3 -m venv venv 2>/dev/null; then
+        USE_VENV=true
+    else
+        USE_VENV=false
+    fi
+else
+    USE_VENV=true
+fi
+
+if [ "$USE_VENV" = "true" ] && [ -f "venv/bin/activate" ]; then
+    source venv/bin/activate
+    pip install -q --upgrade pip
+    pip install -q -r requirements.txt
+    PYTHON_CMD="python"
+    USE_VENV_FLAG=true
+else
+    pip3 install -q --break-system-packages --upgrade pip
+    pip3 install -q --break-system-packages -r requirements.txt
+    PYTHON_CMD="python3"
+    USE_VENV_FLAG=false
+fi
+
+$PYTHON_CMD -c "
 from producer import *
 producer = create_producer()
 send_messages(producer, 'users', num_messages=10, delay=0.3)
 producer.close()
 print('✓ Messages sent to Kafka')
 "
+
+if [ "$USE_VENV_FLAG" = "true" ]; then
+    deactivate
+fi
 cd ..
 echo ""
 echo "Checking Flink logs for errors..."

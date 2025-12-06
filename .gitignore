@@ -5,9 +5,11 @@ __pycache__/
 *.so
 .Python
 env/
-venv/
 ENV/
 .venv
+
+# Producer virtual environment (keep venv in producer for demos)
+# producer/venv/
 
 # Docker
 *.log

@@ -52,11 +52,32 @@ print_step "2" "Chạy Producer liên tục"
 echo "Starting continuous producer (50 batches, 1 message each, 2s delay)..."
 echo "This will run in the background..."
 cd producer
-if [ ! -d "venv" ] && ! python3 -c "import kafka" 2>/dev/null; then
-    pip install -q -r requirements.txt
+
+# Setup environment with fallback
+if [ ! -d "venv" ]; then
+    if python3 -m venv venv 2>/dev/null; then
+        USE_VENV=true
+    else
+        USE_VENV=false
+    fi
+else
+    USE_VENV=true
 fi
 
-python3 -c "
+if [ "$USE_VENV" = "true" ] && [ -f "venv/bin/activate" ]; then
+    source venv/bin/activate
+    pip install -q --upgrade pip
+    pip install -q -r requirements.txt
+    PYTHON_CMD="python"
+    USE_VENV_FLAG=true
+else
+    pip3 install -q --break-system-packages --upgrade pip
+    pip3 install -q --break-system-packages -r requirements.txt
+    PYTHON_CMD="python3"
+    USE_VENV_FLAG=false
+fi
+
+$PYTHON_CMD -c "
 from producer import *
 import time
 producer = create_producer()
@@ -69,6 +90,10 @@ producer.close()
 print('✓ All messages sent!')
 " &
 PRODUCER_PID=$!
+
+if [ "$USE_VENV_FLAG" = "true" ]; then
+    deactivate
+fi
 cd ..
 
 echo "Producer running in background (PID: $PRODUCER_PID)"
