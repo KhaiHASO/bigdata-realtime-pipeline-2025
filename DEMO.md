@@ -2,6 +2,28 @@
 
 Tài liệu này mô tả các kịch bản demo để test và verify toàn bộ pipeline: **Kafka → Flink → Cassandra**
 
+## 🚀 Quick Start - Automated Scripts
+
+**Cách nhanh nhất để chạy demos:** Double-click vào các file script sau (hoặc chạy trong terminal):
+
+```bash
+./demo-01.sh  # Pipeline Cơ Bản
+./demo-02.sh  # Real-Time Streaming
+./demo-03.sh  # Airflow Orchestration
+./demo-04.sh  # Xử Lý Lỗi và Recovery
+./demo-05.sh  # Monitoring và Verification
+./demo-06.sh  # Query và Analysis
+./demo-07.sh  # End-to-End Workflow
+```
+
+Các script sẽ tự động:
+- ✅ Chạy từng bước một cách tuần tự
+- ✅ Hiển thị progress và kết quả
+- ✅ Dừng giữa các bước để bạn theo dõi
+- ✅ Verify kết quả và hiển thị summary
+
+**Lưu ý:** Chạy theo thứ tự từ demo-01 đến demo-07 để có trải nghiệm tốt nhất.
+
 ## Mục lục
 
 1. [Demo 1: Pipeline Cơ Bản](#demo-1-pipeline-cơ-bản)
