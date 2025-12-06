@@ -24,6 +24,25 @@ Các script sẽ tự động:
 
 **Lưu ý:** Chạy theo thứ tự từ demo-01 đến demo-07 để có trải nghiệm tốt nhất.
 
+## 📚 Chi tiết từng Demo
+
+**Để hiểu rõ từng bước và biết cần ấn gì, xem các README chi tiết:**
+
+- 📖 [README-demo-01.md](./README-demo-01.md) - Pipeline Cơ Bản
+- 📖 [README-demo-02.md](./README-demo-02.md) - Real-Time Streaming
+- 📖 [README-demo-03.md](./README-demo-03.md) - Airflow Orchestration
+- 📖 [README-demo-04.md](./README-demo-04.md) - Xử Lý Lỗi và Recovery
+- 📖 [README-demo-05.md](./README-demo-05.md) - Monitoring và Verification
+- 📖 [README-demo-06.md](./README-demo-06.md) - Query và Analysis
+- 📖 [README-demo-07.md](./README-demo-07.md) - End-to-End Workflow
+
+Mỗi README giải thích:
+- ✅ Chuyện gì xảy ra ở mỗi bước
+- ✅ Bạn sẽ thấy gì trên màn hình
+- ✅ Cần ấn gì để tiếp tục
+- ✅ Cách verify kết quả
+- ✅ Troubleshooting tips
+
 ## Mục lục
 
 1. [Demo 1: Pipeline Cơ Bản](#demo-1-pipeline-cơ-bản)
